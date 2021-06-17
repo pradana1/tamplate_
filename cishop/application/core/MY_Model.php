@@ -135,7 +135,7 @@ class MY_Model extends CI_Model
      */
     public function count()
     {
-        return $this->db->count_all_result($this->table);
+        return $this->db->count_all_results($this->table);
     }
 
     /**
@@ -165,7 +165,7 @@ class MY_Model extends CI_Model
      */
     public function delete()
     {
-        $this->db->delate($this->table);
+        $this->db->delete($this->table);
         return $this->db->affected_rows();
     }
 
@@ -175,6 +175,8 @@ class MY_Model extends CI_Model
             $this->perPage,
             $this->calculateRealOffset($page)
         );
+
+        return $this;
     }
 
     public function calculateRealOffset($page)
@@ -206,7 +208,7 @@ class MY_Model extends CI_Model
             'last_link'         => false,
             'fist_tag_open'     => '<li class="page-item">',
             'first_tag_close'   => '</li>',
-            'prev_link'         => '&laguo',
+            'prev_link'         => '&laquo',
             'prev_tag_open'     => '<li class="page-item">',
             'prev_tag_close'    => '</li>',
             'next_link'         => '&raquo',
@@ -215,14 +217,14 @@ class MY_Model extends CI_Model
             'last_tag_open'     => '<li class="page-item">',
             'last_tag_close'    => '</li>',
             'cur_tag_open'      => '<li class="page-item active"><a href="#" class="page-link">',
-            'cur_tag_close'     => '<span class="sr_only">(current)</span></a></li>',
+            'cur_tag_close'     => '<span class="sr_only"></span></a></li>',
             'num_tag_open'     => '<li class="page-item">',
             'num_tag_close'    => '</li>',
 
         ];
 
-        $this->pagination->inisialize($config);
-        return $this->pagination->create_link();
+        $this->pagination->initialize($config);
+        return $this->pagination->create_links();
     }
 }
 
