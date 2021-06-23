@@ -3,7 +3,7 @@
 function getDropdownList($table, $columns)
 {
     $CI = &get_instance();
-    $query = $CI->db->select($columns)->form($table)->get();
+    $query = $CI->db->select($columns)->from($table)->get();
 
     if ($query->num_rows() >= 1) {
         $option1 = ['' => '- Select -'];
@@ -18,8 +18,15 @@ function getDropdownList($table, $columns)
 
 function getCategories()
 {
-    $CI     = &get_instance();
-    $query  = $CI->db->get('category')->result();
+    $CI =& get_instance();
+    $query = $CI->db->query(
+    'SELECT a.*,
+        (
+        SELECT COUNT(*) 
+        FROM product 
+        WHERE id_category = a.id
+        ) jumlah
+    FROM category a ')->result();
     return $query;
 }
 
