@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Waktu pembuatan: 23 Jun 2021 pada 16.17
+-- Waktu pembuatan: 06 Jul 2021 pada 08.42
 -- Versi server: 10.4.17-MariaDB
 -- Versi PHP: 7.4.15
 
@@ -20,6 +20,20 @@ SET time_zone = "+00:00";
 --
 -- Database: `code_cishop`
 --
+
+-- --------------------------------------------------------
+
+--
+-- Struktur dari tabel `cart`
+--
+
+CREATE TABLE `cart` (
+  `id` int(11) NOT NULL,
+  `id_user` int(11) NOT NULL,
+  `id_product` int(11) NOT NULL,
+  `qty` int(11) NOT NULL,
+  `subtotal` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
 
@@ -41,6 +55,52 @@ INSERT INTO `category` (`id`, `slug`, `title`) VALUES
 (1, 'smartphone', 'Smartphone'),
 (2, 'laptops', 'Laptops'),
 (3, 'game-console', 'Game Console');
+
+-- --------------------------------------------------------
+
+--
+-- Struktur dari tabel `orders`
+--
+
+CREATE TABLE `orders` (
+  `id` int(11) NOT NULL,
+  `id_user` int(11) NOT NULL,
+  `date` date NOT NULL,
+  `invoice` varchar(100) NOT NULL,
+  `total` int(11) NOT NULL,
+  `name` varchar(255) NOT NULL,
+  `address` varchar(255) NOT NULL,
+  `phone` varchar(15) NOT NULL,
+  `status` enum('waiting','paid','deliverd','cancel') NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+--
+-- Dumping data untuk tabel `orders`
+--
+
+INSERT INTO `orders` (`id`, `id_user`, `date`, `invoice`, `total`, `name`, `address`, `phone`, `status`) VALUES
+(1, 18, '2021-07-05', '1820210705153712', 20000000, 'pradana yoga', 'Yogyakarta', '082143932513', 'waiting');
+
+-- --------------------------------------------------------
+
+--
+-- Struktur dari tabel `orders_detail`
+--
+
+CREATE TABLE `orders_detail` (
+  `id` int(11) NOT NULL,
+  `id_orders` int(11) NOT NULL,
+  `id_product` int(11) NOT NULL,
+  `qty` int(4) NOT NULL,
+  `subtotal` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+--
+-- Dumping data untuk tabel `orders_detail`
+--
+
+INSERT INTO `orders_detail` (`id`, `id_orders`, `id_product`, `qty`, `subtotal`) VALUES
+(1, 1, 6, 4, 20000000);
 
 -- --------------------------------------------------------
 
@@ -100,9 +160,27 @@ INSERT INTO `user` (`id`, `name`, `email`, `password`, `role`, `is_active`, `ima
 --
 
 --
+-- Indeks untuk tabel `cart`
+--
+ALTER TABLE `cart`
+  ADD PRIMARY KEY (`id`);
+
+--
 -- Indeks untuk tabel `category`
 --
 ALTER TABLE `category`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indeks untuk tabel `orders`
+--
+ALTER TABLE `orders`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indeks untuk tabel `orders_detail`
+--
+ALTER TABLE `orders_detail`
   ADD PRIMARY KEY (`id`);
 
 --
@@ -122,10 +200,28 @@ ALTER TABLE `user`
 --
 
 --
+-- AUTO_INCREMENT untuk tabel `cart`
+--
+ALTER TABLE `cart`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+
+--
 -- AUTO_INCREMENT untuk tabel `category`
 --
 ALTER TABLE `category`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
+
+--
+-- AUTO_INCREMENT untuk tabel `orders`
+--
+ALTER TABLE `orders`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+
+--
+-- AUTO_INCREMENT untuk tabel `orders_detail`
+--
+ALTER TABLE `orders_detail`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- AUTO_INCREMENT untuk tabel `product`
