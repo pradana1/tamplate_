@@ -20,6 +20,7 @@ class Cart extends MY_Controller {
         }
         
     }
+    
     public function index($page = null)
     {
         $data['title'] = 'Keranjang Belanja';
